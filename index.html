@@ -4,48 +4,65 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="index.css">
   <title>Movie Watchlist</title>
+  <link rel="stylesheet" href="index.css">
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <div id="container">
+  <div class="container">
     <header>
       <div class="title-nav">
         <h1>Find your film</h1>
-        <p> <a href="mi-lista.html">My watchlist</a></p> 
+        <p>
+          <a href="mi-lista.html">My watchlist</a>
+        </p>
       </div>
       <div class="search-form">
-        <input class="search"  type="text" placeholder="Movie name here...">
-        <button class="btn">Search</button>
+        <input id="search-field" class="search" type="text" placeholder="Movie name here...">
+        <button id="btn" class="btn">Search</button>
       </div>
     </header>
     <main>
       <section class="card">
-        <div>
-          <img src="/img/test-img-poster.jpeg" alt="Film">
-        </div>
-        <div>
-          <div>
+        <div class="card-poster"><img src="./img/test-img-poster.jpeg" alt="Algo asi"></div>
+        <div class="card-meta">
+          <div class="card-title">
             <h2>Blade Runner</h2>
-            <p> ⭐️ 8.1</p>
+            <p>⭐️ <span>8.1</span></p>
           </div>
-          <div>
+          <div class="card-detals">
             <p>117 min</p>
-            <p>action, Drama, Sci-fi</p>
-            <button>Watchlist</button>
+            <p>Action, Drama, Sci-Fi</p>
+            <button class="card-btn"><span>+</span> Watchlist</button>
           </div>
-          <div>
+          <div class="card-synopsis">
             <p>A blade runner must pursue and terminate four
               replicants who stole a ship in space, and have
-              returned to Earth to find their creator.
-            </p>
+              returned to Earth to find their creator</p>
           </div>
         </div>
-      </section>
-     
+      </section>  
+      <hr>
+      <section class="card">
+        <div class="card-poster"><img src="./img/test-img-poster.jpeg" alt="Algo asi"></div>
+        <div class="card-meta">
+          <div class="card-title">
+            <h2>Blade Runner</h2>
+            <p>⭐️ <span>8.1</span></p>
+          </div>
+          <div class="card-detals">
+            <p>117 min</p>
+            <p>Action, Drama, Sci-Fi</p>
+            <button  class="card-btn"> <span>+</span> Watchlist</button>
+          </div>
+          <div class="card-synopsis">
+            <p>A blade runner must pursue and terminate four
+              replicants who stole a ship in space, and have
+              returned to Earth to find their creator</p>
+          </div>
+        </div>
+      </section>  
     </main>
-  </div>
-  
+  </div>   
 </body>
-<script src="index.js"></script>
 </html>
