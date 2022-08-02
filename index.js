@@ -2,8 +2,8 @@ const searchField = document.querySelector('#search-field')
 const mainContainer =document.querySelector('#main-container')
 const searchBtn = document.querySelector('#search-btn')
 const cardRemoveBtn = document.querySelector('#card-remove-btn')
-const cardAddBtn = document.querySelector('#card-add-btn')
 const modal = document.querySelector('#modal')
+const watchlistArray = []
 searchBtn.addEventListener('click', searchMovie)
 
 async function fetchData(searchInput, type) {
@@ -23,10 +23,15 @@ function addEventBtnDetails() {
         modal.showModal()
         const closeModalBtn = document.querySelector('#close-modal-btn')
         closeModalBtn.addEventListener('click', () => modal.close())
+        const cardAddBtn = document.querySelector('#card-add-btn')
+        cardAddBtn.addEventListener('click', () => {
+          watchlistArray.push(data)
+          window.localStorage.setItem('myWatchlist', JSON.stringify(watchlistArray))
+          console.log(watchlistArray)
+        })
       })
     })
-  )
-  
+  ) 
 }
 
 function getDetailsHTML(data) {
