@@ -3,11 +3,18 @@ const mainContainer =document.querySelector('#main-container')
 const searchBtn = document.querySelector('#search-btn')
 const cardRemoveBtn = document.querySelector('#card-remove-btn')
 const modal = document.querySelector('#modal')
-const watchlistArray = []
+let watchlistArray = []
 searchBtn.addEventListener('click', searchMovie)
 
+// Ver si hay data en localStorage y si es asi, cargar nuestro array con su contendido
+const loadLocalStorage = JSON.parse(localStorage.getItem('myWatchlist'))
+if(loadLocalStorage) {
+  watchlistArray = loadLocalStorage
+  console.log(watchlistArray)
+}
+
 async function fetchData(searchInput, type) {
-  const res = await fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=b4ee78c6&${type}=${searchInput}`)
+  const res = await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=b4ee78c6&${type}=${searchInput}`)
   const data = await res.json()
   return data
 }
@@ -27,7 +34,6 @@ function addEventBtnDetails() {
         cardAddBtn.addEventListener('click', () => {
           watchlistArray.push(data)
           window.localStorage.setItem('myWatchlist', JSON.stringify(watchlistArray))
-          console.log(watchlistArray)
         })
       })
     })

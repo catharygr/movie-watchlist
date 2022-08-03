@@ -214,11 +214,39 @@ header {
 
   .card-btn > span {
     width: 20px;
-    background-color: #222;
+    background-color: green;
     height: 20px;
     display: inline-block;
     color: aliceblue;
     border-radius: 50%;
     padding: 1px;
   }
+
+  .card-btn:hover {
+    color: red;
+  }
+
+  /* Whatchlist page */
+
+  .watchlist-container {
+    background-color: antiquewhite;
+    color: #222;
+    padding: 3rem 5rem;
+  }
+
+  .card-watchlist-page {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .watchlist-header {
+    padding-bottom: 4rem;
+  }
+
+  .card-btn > .red {
+    background-color: red;
+  }
+  
 
