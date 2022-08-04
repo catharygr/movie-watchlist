@@ -4,21 +4,38 @@ const searchBtn = document.querySelector('#search-btn')
 const cardRemoveBtn = document.querySelector('#card-remove-btn')
 const modal = document.querySelector('#modal')
 let watchlistArray = []
-searchBtn.addEventListener('click', searchMovie)
 
 // Ver si hay data en localStorage y si es asi, cargar nuestro array con su contendido
 const loadLocalStorage = JSON.parse(localStorage.getItem('myWatchlist'))
-if(loadLocalStorage) {
-  watchlistArray = loadLocalStorage
-  console.log(watchlistArray)
+loadLocalStorage ? watchlistArray = loadLocalStorage : loadLocalStorage
+
+// Esta función es para obtener el término de busqueda
+searchBtn.addEventListener('click', searchMovie)
+function searchMovie() {
+  const searchInput = searchField.value
+  fetchData(searchInput, 's').then(
+    data => {
+      getSearchHTML(data.Search)
+    }
+  )
 }
 
+// Función que obtiene datos desde API utilizando fetch
 async function fetchData(searchInput, type) {
-  const res = await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=b4ee78c6&${type}=${searchInput}`)
-  const data = await res.json()
-  return data
+  try {
+    const res = await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=b4ee78c6&${type}=${searchInput}`)
+    const data = await res.json()
+    // Condicional que capta errores de busquedas 
+    if(data.Response === 'False') {
+     mainContainer.innerHTML = `<p>${data.Error}</p>`
+    } else {
+      return data
+    }
+  } catch (err) { // Bloque catch para captar errores código 200
+    mainContainer.innerHTML = `<p>Sorry looks like we have a following problem: ${err}</p>`
+  }
 }
-
+// Después de render cHtml 
 function addEventBtnDetails() {
   const allDetailsBtn = document.querySelectorAll('#card-details-btn')
   const btnArray = [...allDetailsBtn]
@@ -89,14 +106,6 @@ function getSearchHTML(data) {
   }
 
   
-  function searchMovie() {
-    const searchInput = searchField.value
-    fetchData(searchInput, 's').then(
-      data => {
-        getSearchHTML(data.Search)
-      }
-      )
-  
-}
 
-// http://www.omdbapi.com/?i=tt3896198&apikey=b4ee78c6
+
+
