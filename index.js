@@ -9,23 +9,25 @@ let watchlistArray = []
 const loadLocalStorage = JSON.parse(localStorage.getItem('myWatchlist'))
 loadLocalStorage ? watchlistArray = loadLocalStorage : loadLocalStorage
 
-// Esta función es para obtener el término de busqueda
+// Esta función es para obtener el término de busqueda con eventlistener en el boton search
 searchBtn.addEventListener('click', searchMovie)
 function searchMovie() {
   const searchInput = searchField.value
+  //Se llama la función fetchData para obtener resultado pasándole como argumnetos .value y tipo de busqueda 
   fetchData(searchInput, 's').then(
     data => {
-      getSearchHTML(data.Search)
+      getSearchHTML(data.Search) // Pasar data de vuelta  a función de generar html
     }
   )
 }
 
 // Función que obtiene datos desde API utilizando fetch
 async function fetchData(searchInput, type) {
+  // Bloque try/catch
   try {
     const res = await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=b4ee78c6&${type}=${searchInput}`)
     const data = await res.json()
-    // Condicional que capta errores de busquedas 
+    // Condicional que capta errores de busquedas devueltos por API
     if(data.Response === 'False') {
      mainContainer.innerHTML = `<p>${data.Error}</p>`
     } else {
@@ -35,7 +37,35 @@ async function fetchData(searchInput, type) {
     mainContainer.innerHTML = `<p>Sorry looks like we have a following problem: ${err}</p>`
   }
 }
-// Después de render cHtml 
+
+// Función para generar código html para render data de la busqueda 
+function getSearchHTML(data) {
+  // Hacemos .map que devuelve el código de html en un array y con .join lo unimos en un string
+  const searcHTML = data.map(
+    singleMovie =>  {
+      return ` <section class="search-card">
+      <div>
+        <div class="search-card-poster"><img src="${singleMovie.Poster}" alt="Movie Poster"></div>
+      </div>
+      <div class="search-card-meta">
+        <button data-title="${singleMovie.Title}" class="search-card-btn" id="card-details-btn">Get details...</button>
+        <h2>${singleMovie.Title}</h2>
+        <p><span>${singleMovie.Type}</span> <span>${singleMovie.Year}</span></p>
+      </div>
+      </section>`
+    }
+    ).join('')
+    // Llamamos función para render html en el navegador y le pasamos html como argumento 
+    renderHTML(searcHTML)
+    addEventBtnDetails()
+  }
+
+  function renderHTML(searcHTML) {
+    mainContainer.innerHTML = searcHTML
+  }
+
+
+// Después de render Html 
 function addEventBtnDetails() {
   const allDetailsBtn = document.querySelectorAll('#card-details-btn')
   const btnArray = [...allDetailsBtn]
@@ -82,28 +112,9 @@ function getDetailsHTML(data) {
 
 
 
-function getSearchHTML(data) {
-  const searcHTML = data.map(
-    singleMovie =>  {
-      return ` <section class="search-card">
-      <div>
-        <div class="search-card-poster"><img src="${singleMovie.Poster}" alt="Movie Poster"></div>
-      </div>
-      <div class="search-card-meta">
-        <button data-title="${singleMovie.Title}" class="search-card-btn" id="card-details-btn">Get details...</button>
-        <h2>${singleMovie.Title}</h2>
-        <p><span>${singleMovie.Type}</span> <span>${singleMovie.Year}</span></p>
-      </div>
-      </section>`
-    }
-    ).join('')
-    renderHTML(searcHTML)
-    addEventBtnDetails()
-  }
+
   
-  function renderHTML(searcHTML) {
-    mainContainer.innerHTML = searcHTML
-  }
+ 
 
   
 
