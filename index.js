@@ -57,27 +57,37 @@ function getSearchHTML(data) {
     ).join('')
     // Llamamos función para render html en el navegador y le pasamos html como argumento 
     renderHTML(searcHTML)
+    // Después de generar los botones llamamos esra funcion para añadir evenlistener(+ watchlist)
     addEventBtnDetails()
   }
 
+  // Para render html en el navegador 
   function renderHTML(searcHTML) {
     mainContainer.innerHTML = searcHTML
   }
 
 
-// Después de render Html 
+// Función que añade evenlistener a todos los botones (+ watchlist)
 function addEventBtnDetails() {
+  // Nos amarramos a los botones y html coleccion la convertimos en un array con un spreed operator
   const allDetailsBtn = document.querySelectorAll('#card-details-btn')
   const btnArray = [...allDetailsBtn]
+// Hacemos un .map al array
   btnArray.map(
     btn => btn.addEventListener('click', () => {
+      // FethData de servidor via titulo de la peli y el tipo de la busqueda como argumentos
       fetchData(btn.dataset.title, 't')
       .then(data => {
+        // Llamamos la función que genera Html de la vista detallada
         getDetailsHTML(data)
+        // Hacemos un modal y presentamos la vista detallada
         modal.showModal()
         const closeModalBtn = document.querySelector('#close-modal-btn')
+        // Boton de cerrar el modal
         closeModalBtn.addEventListener('click', () => modal.close())
+        // Boton de anadir la peli a wachtlist
         const cardAddBtn = document.querySelector('#card-add-btn')
+        // Funcionalidad del mismo boton donde se empuja la peli en un array y luego se guarda en localStorage
         cardAddBtn.addEventListener('click', () => {
           watchlistArray.push(data)
           window.localStorage.setItem('myWatchlist', JSON.stringify(watchlistArray))
@@ -87,6 +97,7 @@ function addEventBtnDetails() {
   ) 
 }
 
+// Es para render en el navegador 
 function getDetailsHTML(data) {
   modal.innerHTML = `
   <section class="card">
